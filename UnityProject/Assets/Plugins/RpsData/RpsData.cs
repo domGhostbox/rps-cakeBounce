@@ -16,8 +16,9 @@ public class RpsData : MonoBehaviour
 
 	public bool m_enableLogging;
 
-	private string m_appName;
-	private  string m_version;
+	public string m_appName,
+						  m_version;
+		
 
 	public List<UpdatedVariable>	m_updatedVariables = new List<UpdatedVariable>();
 
@@ -31,17 +32,13 @@ public class RpsData : MonoBehaviour
 
 	private bool m_recievedDataSinceSessionStart;
 
+	private string m_storedString;
+
 	void Awake()
 	{
 		instance = this;
 
 		DontDestroyOnLoad(gameObject);
-	}
-
-	public void SetUp(string _appName, string _version)
-	{
-		m_appName = _appName;
-		m_version = _version;
 	}
 
 	void OnApplicationFocus(bool pauseStatus) 
@@ -56,6 +53,7 @@ public class RpsData : MonoBehaviour
 
 	public void UpdateVariables() //will refresh updated variables each time app is opened, falling back to cached variables if no internet is not available
 	{
+
 		if(Application.internetReachability != NetworkReachability.NotReachable)
 		{
 			Log ("Updating Vars - internet Ok Fetching");
@@ -63,10 +61,15 @@ public class RpsData : MonoBehaviour
 		}
 		else
 		{
-			m_stringRecieved = PlayerPrefs.GetString("rpsDataStringRecieved");
-			LoadUpdatedVariables();
+			m_storedString = PlayerPrefs.GetString("rpsDatastoredString");
+			LoadVariablesFromPlayerPrefs();
 			Log ("Updating vars - no internet - using cached data");
 		}
+	}
+
+	public void FetchDataSet(string _key)
+	{
+		StartCoroutine_Auto(FetchData(_key));
 	}
 
 	public System.Collections.IEnumerator FetchData(string _key = "")
@@ -165,6 +168,51 @@ public class RpsData : MonoBehaviour
 			else
 			{
 				m_updatedVariables.Add(tempUpdatedVariable);
+			}
+		}
+
+		SaveVariablesToPlayerPrefs();
+
+		updatedVariablesReceivedEvent();
+	}
+
+	void SaveVariablesToPlayerPrefs()
+	{
+		string newStoredString ="";
+
+		for(int i = 0; i < m_updatedVariables.Count; i++)
+		{
+			string newLine = (m_updatedVariables[i].m_name + ":" + m_updatedVariables[i].m_value + ",");
+			newStoredString += newLine;
+		}
+
+		PlayerPrefs.SetString("rpsDatastoredString", newStoredString);
+
+		Log("Saved " + m_updatedVariables.Count + " variables: " + newStoredString);
+	}
+
+	void LoadVariablesFromPlayerPrefs()
+	{
+		UpdatedVariable tempUpdatedVariable;
+		string[] lines = m_storedString.Split(',');
+
+		for(int i = 0; i < lines.Length; i++)
+		{
+			string[] newVariable = (lines[i]).Split(':');
+
+			if(newVariable[0] != "")
+			{
+				tempUpdatedVariable.m_name = newVariable[0];
+				tempUpdatedVariable.m_value = newVariable[1];
+				
+				if(IfVariableAlreadyExists(tempUpdatedVariable.m_name))
+				{
+					UpdateExistingVariable(tempUpdatedVariable.m_name, tempUpdatedVariable.m_value);
+				}
+				else
+				{
+					m_updatedVariables.Add(tempUpdatedVariable);
+				}
 			}
 		}
 
