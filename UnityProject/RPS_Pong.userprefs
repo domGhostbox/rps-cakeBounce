@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\RpsData\RpsData.cs">
+    <Files>
+      <File FileName="Assets\Plugins\RpsData\RpsData.cs" Line="111" Column="4" />
+      <File FileName="Assets\Plugins\RpsData\RpsData.cs" Line="74" Column="53" />
+      <File FileName="Assets\Code\PongUI.cs" Line="149" Column="24" />
+      <File FileName="Assets\Code\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Code\PongGameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Code\InputManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Code\Ball.cs" Line="61" Column="23" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
