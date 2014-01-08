@@ -22,7 +22,7 @@ public class RpsData : MonoBehaviour
 
 	public List<UpdatedVariable>	m_updatedVariables = new List<UpdatedVariable>();
 
-	private string m_rpsDataServerAdress = "http://aftertouch.io/at/"; //make sure whatever link used ends with "/" or ".jsp" ie NOT http://aftertouch.io/at
+	private string m_rpsDataServerAdress = "http://aftertouch.io/at/index.jsp"; //make sure whatever link used ends with "/" or ".jsp" ie NOT http://aftertouch.io/at
 
 	private string m_responseRecieved, m_configRecieved, m_requestReceived, m_stringRecieved;
 
